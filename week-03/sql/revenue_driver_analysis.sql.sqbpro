@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/Data Analytics - Projects/Zyro_Internship/zyro-data-analyst-internship/zyro-data-analyst-internship/week-03/Ride Sharing Dataset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2539"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="0" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="rides" custom_title="0" dock_id="1" table="4,5:mainrides"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">SELECT 
+    &quot;Payment Method&quot; AS payment_method, 
+    COUNT(*) AS completed_rides,
+    SUM(&quot;Fare Amount (in $)&quot;) AS total_revenue,
+    AVG(&quot;Fare Amount (in $)&quot;) AS average_fare
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0 
+GROUP BY &quot;Payment Method&quot;
+ORDER BY total_revenue DESC;
+
+
+SELECT 
+    &quot;Driver ID&quot; AS driver_id, 
+    COUNT(*) AS total_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; &gt; 0 THEN 1 ELSE 0 END) AS completed_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; = 0 THEN 1 ELSE 0 END) AS cancelled_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; &gt; 0 THEN &quot;Fare Amount (in $)&quot; ELSE 0 END) AS revenue,
+    AVG(&quot;User Rating&quot;) AS average_rating
+FROM rides
+GROUP BY &quot;Driver ID&quot;
+ORDER BY revenue DESC;
+
+
+SELECT 
+    SUM(&quot;Fare Amount (in $)&quot;) AS sql_total_revenue,
+    AVG(&quot;Fare Amount (in $)&quot;) AS sql_average_fare
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0;
+
+
+SELECT 
+    &quot;Pickup Location&quot; AS pickup_location,
+    SUM(&quot;Fare Amount (in $)&quot;) AS sql_location_revenue
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0
+GROUP BY &quot;Pickup Location&quot;
+ORDER BY sql_location_revenue DESC
+LIMIT 5;
+
+
+SELECT 
+    &quot;Driver ID&quot; AS driver_id, 
+    COUNT(*) AS total_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; &gt; 0 THEN &quot;Fare Amount (in $)&quot; ELSE 0 END) AS revenue,
+    AVG(&quot;User Rating&quot;) AS average_rating,
+    AVG(&quot;Ride Distance (in miles)&quot;) AS average_distance
+FROM rides
+GROUP BY &quot;Driver ID&quot;
+ORDER BY revenue DESC
+LIMIT 5;
+
+/* Macro Financial Verification Checks */
+SELECT 
+    SUM(&quot;Fare Amount (in $)&quot;) AS sql_total_revenue,
+    AVG(&quot;Fare Amount (in $)&quot;) AS sql_average_fare
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0;
+
+/* Revenue and Volumetric Contribution by Payment Type */
+SELECT 
+    &quot;Payment Method&quot; AS payment_method, 
+    COUNT(*) AS completed_rides,
+    SUM(&quot;Fare Amount (in $)&quot;) AS total_revenue,
+    AVG(&quot;Fare Amount (in $)&quot;) AS average_fare
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0 
+GROUP BY &quot;Payment Method&quot;
+ORDER BY total_revenue DESC;
+
+
+SELECT 
+    &quot;Pickup Location&quot; AS pickup_location,
+    SUM(&quot;Fare Amount (in $)&quot;) AS sql_location_revenue
+FROM rides
+WHERE &quot;Fare Amount (in $)&quot; &gt; 0
+GROUP BY &quot;Pickup Location&quot;
+ORDER BY sql_location_revenue DESC
+LIMIT 5;
+
+SELECT 
+    &quot;Driver ID&quot; AS driver_id, 
+    COUNT(*) AS total_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; &gt; 0 THEN 1 ELSE 0 END) AS completed_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; = 0 THEN 1 ELSE 0 END) AS cancelled_rides,
+    SUM(CASE WHEN &quot;Fare Amount (in $)&quot; &gt; 0 THEN &quot;Fare Amount (in $)&quot; ELSE 0 END) AS revenue,
+    AVG(&quot;User Rating&quot;) AS average_rating,
+    AVG(&quot;Ride Distance (in miles)&quot;) AS average_distance
+FROM rides
+GROUP BY &quot;Driver ID&quot;
+ORDER BY revenue DESC
+LIMIT 5;
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
